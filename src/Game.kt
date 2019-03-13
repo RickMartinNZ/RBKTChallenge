@@ -1,3 +1,6 @@
+import java.awt.Point
+import kotlin.properties.Delegates
+
 /**
  * The class that represents the game
  */
@@ -5,11 +8,35 @@ class Game {
 
     // used for statics and constants
     companion object {
+        // specification constraints
+        const val MAX_DIM = 50
+        // error messages
+        const val GRID_DIMS_ERROR = "Format: 'xx yy' where xx & yy are digits in the range 1-$MAX_DIM"
+    }
 
+    /**
+     * Needed for testing the application
+     */
+    enum class EError {
+        ENone,
+        EBadInputFormat,
+        ECreateWorldBadSize,
+        ECreateRobotBadPosition,
+        ECreateRobotOffGrid
     }
 
     // the game state
     private var gameState = EGameState.ECreateWorld
+    // last error encountered
+    var lastError = EError.ENone
+    // the dimensions of the grid
+    private var gridDims: Point by Delegates.notNull()
+    // used to validate the grid dims
+    private val gridRegex = "([0-9]{1,2})\\s+([0-9]{1,2})".toRegex()
+    // if this is true we are in test mode
+    private var isInTestMode = false
+    // the test data
+    private var testData: Array<String>? = null
 
     /**
      * The game state
@@ -77,7 +104,28 @@ class Game {
      * @return the new game state - game state does not change in case of error
      */
     private fun createWorld(input: String): EGameState {
-        // TODO add functionality here
+        lastError = EError.ENone
+        // preliminary format check
+        if (!gridRegex.matches(input)) {
+            lastError = EError.EBadInputFormat
+            println(GRID_DIMS_ERROR)
+            // don't change state
+            return gameState
+        }
+        val tokens = input.split(' ')
+        // no need to check for unparsables because the regex checks that the input is digits
+        val x = tokens[0].toInt()
+        val y = tokens[1].toInt()
+        // grid size constraint check - because regex allows two digit numbers
+        // ASSUMPTION not in spec that grid is at least one unit each way!
+        if (!(x in 1..MAX_DIM && y in 1..MAX_DIM)) {
+            lastError = EError.ECreateWorldBadSize
+            println(GRID_DIMS_ERROR)
+            // don't change state
+            return gameState
+        }
+        // ok set the grid size
+        gridDims = Point(x, y)
         // to go next game state
         return EGameState.ECreateRobot
     }
@@ -104,4 +152,46 @@ class Game {
         // to go next game state
         return EGameState.ECreateRobot
     }
+
+    // ================== Test Stuff
+
+    /**
+     * This enables test mode
+     *
+     * @param data this is the test data that will be used instead of user input
+     */
+    fun setTestMode(data: Array<String>) {
+        isInTestMode = true
+        testData = data
+    }
+
+    /**
+     * This disables test mode and resets the game to starting conditions
+     */
+    fun resetTestMode() {
+        isInTestMode = false
+        testData = null
+        gameState = EGameState.ECreateWorld
+    }
+
+    /**
+     * Just walks through the game as though a human player were playng it
+     *
+     * This is is driven by the tests - see main class
+     */
+    fun testStep() {
+        gameState = when (gameState) {
+            EGameState.ECreateWorld -> {
+                createWorld(testData!![0])
+            }
+            EGameState.ECreateRobot -> {
+                System.out.println("CREATE ROBOT")
+                createRobot(testData!![1])
+            }
+            else -> {
+                orderRobot(testData!![2])
+            }
+        }
+    }
+
 }
