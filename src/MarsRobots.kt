@@ -46,7 +46,21 @@ fun runTests(game: Game) {
         System.out.println("testLostRobot failed")
         return
     }
-
+    passed = testMarkedPosition(game)
+    if (!passed) {
+        System.out.println("testMarkedPosition failed")
+        return
+    }
+    passed = testSelfPreservation(game)
+    if (!passed) {
+        System.out.println("testSelfPreservation failed")
+        return
+    }
+    passed = testMarkedPositionDifferentDirection(game)
+    if (!passed) {
+        System.out.println("testMarkedPositionDifferentDirection failed")
+        return
+    }
     System.out.println("All tests passed")
 }
 
@@ -406,7 +420,7 @@ fun testLostRobot(game: Game): Boolean {
     game.testStep() // to set up robot
     game.testStep()
     if (game.getRobotDirection() != Game.EDir.EWest) return false
-    if (game.getRobotPosition() != Point(-1, 5)) return false
+    if (game.getRobotPosition() != Point(0, 5)) return false
     if (!game.isRobotLost()) return false
     System.out.println("Lost to right")
     game.resetTestMode()
@@ -436,7 +450,145 @@ fun testLostRobot(game: Game): Boolean {
     game.testStep() // to set up robot
     game.testStep()
     if (game.getRobotDirection() != Game.EDir.ESouth) return false
-    if (game.getRobotPosition() != Point(5, -1)) return false
+    if (game.getRobotPosition() != Point(5, 0)) return false
     if (!game.isRobotLost()) return false
+    return true
+}
+
+fun testMarkedPosition(game: Game): Boolean {
+    System.out.println("Lost to left")
+    game.resetTestMode()
+    var data = arrayOf("10 10", "5 5 N", "LFFFFFF")
+    game.setTestMode(data)
+    game.testStep() // to set up world
+    game.testStep() // to set up robot
+    game.testStep()
+    if (game.getRobotDirection() != Game.EDir.EWest) return false
+    if (game.getRobotPosition() != Point(0, 5)) return false
+    if (!game.isRobotLost()) return false
+    if (!game.isPositionMarked(Point(0, 5), Game.EDir.EWest)) return false
+    System.out.println("*Lost to right")
+    game.resetTestMode()
+    data = arrayOf("10 10", "5 5 N", "RFFFFFFF")
+    game.setTestMode(data)
+    game.testStep() // to set up world
+    game.testStep() // to set up robot
+    game.testStep()
+    if (game.getRobotDirection() != Game.EDir.EEast) return false
+    if (game.getRobotPosition() != Point(10, 5)) return false
+    if (!game.isRobotLost()) return false
+    if (!game.isPositionMarked(Point(10, 5), Game.EDir.EEast)) return false
+    System.out.println("Lost to top")
+    game.resetTestMode()
+    data = arrayOf("10 10", "5 5 N", "FFFFFF")
+    game.setTestMode(data)
+    game.testStep() // to set up world
+    game.testStep() // to set up robot
+    game.testStep()
+    if (game.getRobotDirection() != Game.EDir.ENorth) return false
+    if (game.getRobotPosition() != Point(5, 10)) return false
+    if (!game.isRobotLost()) return false
+    if (!game.isPositionMarked(Point(5, 10), Game.EDir.ENorth)) return false
+    System.out.println("Lost to bottom")
+    game.resetTestMode()
+    data = arrayOf("10 10", "5 5 N", "RRFFFFFF")
+    game.setTestMode(data)
+    game.testStep() // to set up world
+    game.testStep() // to set up robot
+    game.testStep()
+    if (game.getRobotDirection() != Game.EDir.ESouth) return false
+    if (game.getRobotPosition() != Point(5, 0)) return false
+    if (!game.isRobotLost()) return false
+    if (!game.isPositionMarked(Point(5, 0), Game.EDir.ESouth)) return false
+    return true
+}
+
+fun testSelfPreservation(game: Game): Boolean {
+    System.out.println("Lost to left")
+    game.resetTestMode()
+    var data = arrayOf("10 10", "5 5 N", "LFFFFFF")
+    game.setTestMode(data)
+    game.testStep() // to set up world
+    game.testStep() // to set up robot
+    game.testStep()
+    if (game.getRobotDirection() != Game.EDir.EWest) return false
+    if (game.getRobotPosition() != Point(0, 5)) return false
+    if (!game.isRobotLost()) return false
+    if (!game.isPositionMarked(Point(0, 5), Game.EDir.EWest)) return false
+    game.testStep() // new robot at same location with same walk
+    game.testStep() // try to kill it
+    if (game.getRobotDirection() != Game.EDir.EWest) return false
+    if (game.getRobotPosition() != Point(0, 5)) return false
+    if (game.isRobotLost()) return false
+    System.out.println("**Lost to right")
+    game.resetTestMode()
+    data = arrayOf("10 10", "5 5 N", "RFFFFFFF")
+    game.setTestMode(data)
+    game.testStep() // to set up world
+    game.testStep() // to set up robot
+    game.testStep()
+    if (game.getRobotDirection() != Game.EDir.EEast) return false
+    if (game.getRobotPosition() != Point(10, 5)) return false
+    if (!game.isRobotLost()) return false
+    if (!game.isPositionMarked(Point(10, 5), Game.EDir.EEast)) return false
+    game.testStep() // new robot at same location with same walk
+    game.testStep() // try to kill it
+    if (game.getRobotDirection() != Game.EDir.EEast) return false
+    if (game.getRobotPosition() != Point(10, 5)) return false
+    if (game.isRobotLost()) return false
+    System.out.println("Lost to top")
+    game.resetTestMode()
+    data = arrayOf("10 10", "5 5 N", "FFFFFF")
+    game.setTestMode(data)
+    game.testStep() // to set up world
+    game.testStep() // to set up robot
+    game.testStep()
+    if (game.getRobotDirection() != Game.EDir.ENorth) return false
+    if (game.getRobotPosition() != Point(5, 10)) return false
+    if (!game.isRobotLost()) return false
+    if (!game.isPositionMarked(Point(5, 10), Game.EDir.ENorth)) return false
+    game.testStep() // new robot at same location with same walk
+    game.testStep() // try to kill it
+    if (game.getRobotDirection() != Game.EDir.ENorth) return false
+    if (game.getRobotPosition() != Point(5, 10)) return false
+    if (game.isRobotLost()) return false
+    System.out.println("Lost to bottom")
+    game.resetTestMode()
+    data = arrayOf("10 10", "5 5 N", "RRFFFFFF")
+    game.setTestMode(data)
+    game.testStep() // to set up world
+    game.testStep() // to set up robot
+    game.testStep()
+    if (game.getRobotDirection() != Game.EDir.ESouth) return false
+    if (game.getRobotPosition() != Point(5, 0)) return false
+    if (!game.isRobotLost()) return false
+    if (!game.isPositionMarked(Point(5, 0), Game.EDir.ESouth)) return false
+    game.testStep() // new robot at same location with same walk
+    game.testStep() // try to kill it
+    if (game.getRobotDirection() != Game.EDir.ESouth) return false
+    if (game.getRobotPosition() != Point(5, 0)) return false
+    if (game.isRobotLost()) return false
+    return true
+}
+
+fun testMarkedPositionDifferentDirection(game: Game): Boolean {
+    System.out.println("Lost to left")
+    game.resetTestMode()
+    var data = arrayOf("10 10", "5 5 N", "LFFFFFF")
+    game.setTestMode(data)
+    game.testStep() // to set up world
+    game.testStep() // to set up robot
+    game.testStep()
+    if (game.getRobotDirection() != Game.EDir.EWest) return false
+    if (game.getRobotPosition() != Point(0, 5)) return false
+    if (!game.isRobotLost()) return false
+    if (!game.isPositionMarked(Point(0, 5), Game.EDir.EWest)) return false
+    data = arrayOf("10 10", "5 5 N", "LFFFFFLF")
+    game.setTestMode(data) // update the data
+    game.testStep() // new robot at same location going to marked square but facing different way at edge
+    game.testStep() // try to kill it
+    if (game.getRobotDirection() != Game.EDir.ESouth) return false
+    if (game.getRobotPosition() != Point(0, 4)) return false
+    if (game.isRobotLost()) return false
     return true
 }

@@ -84,6 +84,19 @@ class Game {
      */
     private data class Robot(var pos: Point, var dir: EDir, var lost: Boolean = false)
 
+    /**
+     * This is an instance of a position on the grid where a robot jumped
+     *
+     * @param pos the position on the grid
+     * @param dir the fatal direction
+     */
+    private data class SmellyPosition(val pos: Point, val dir: EDir)
+
+    /**
+     * The collection of positions where robots fell off the grid
+     */
+    private val smellies = ArrayList<SmellyPosition>()
+
     // the game state
     private var gameState = EGameState.ECreateWorld
     // last error encountered
@@ -114,13 +127,25 @@ class Game {
     private val commands: HashMap<Char, (Robot) -> Unit> = hashMapOf(
         'F' to { state ->
             run lambda@{
+                // save the position and direction
+                val pos = Point(state.pos)
+                val dir = state.dir
+                // avoid changing the underlying fields
+                val potentialSmelly = SmellyPosition(pos, dir)
+                // if we know we are about to jump off then bottle out
+                if (smellies.contains(potentialSmelly)) {
+                    System.out.println("I ain't jumpin'!")
+                    return@lambda
+                }
+                // ok move and hope
                 state.pos add state.dir.movement
                 // did we fall?
                 if (!state.pos.isOnGrid(gridDims)) {
-                    // TODO mark the position
+                    // mark the position with a smelly
+                    smellies.add(potentialSmelly)
+                    state.pos = pos
                     state.lost = true
                 }
-
             }
         },
         'R' to { state -> state.dir = state.dir.right() },
@@ -312,7 +337,7 @@ class Game {
      * @return true if we are on the grid
      */
     private fun Point.isOnGrid(grid: Point): Boolean {
-        return this.x in 0 until grid.x && this.y in 0 until grid.y
+        return this.x in 0..grid.x && this.y in 0..grid.y
     }
 
     /**
@@ -353,6 +378,7 @@ class Game {
         isInTestMode = false
         testData = null
         gameState = EGameState.ECreateWorld
+        smellies.clear()
     }
 
     /**
@@ -386,5 +412,21 @@ class Game {
         return robot.lost
     }
 
+    /**
+     * This answers whether a robot has fallen from this location in a certain direction
+     *
+     * @param pos the position in the world
+     * @param dir the direction the robot was moving in
+     * @return whether this event has been recorded in the collection
+     */
+    fun isPositionMarked(pos: Point, dir: EDir): Boolean {
+        val mark = SmellyPosition(pos, dir)
+        return smellies.contains(mark)
+    }
 
+    fun dumpMarks() {
+        for(sm in smellies) {
+            System.out.println("SM $sm")
+        }
+    }
 }

@@ -18,8 +18,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/MarsRobots.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2104">
-              <caret line="442" selection-start-line="442" selection-end-line="442" />
+            <state relative-caret-position="459">
+              <caret line="548" column="42" selection-start-line="548" selection-start-column="42" selection-end-line="548" selection-end-column="42" />
             </state>
           </provider>
         </entry>
@@ -27,8 +27,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Game.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="354">
-              <caret line="388" lean-forward="true" selection-start-line="388" selection-end-line="388" />
+            <state relative-caret-position="209">
+              <caret line="419" column="57" selection-start-line="419" selection-start-column="57" selection-end-line="419" selection-end-column="57" />
               <folding>
                 <element signature="e#0#56#0" expanded="true" />
               </folding>
@@ -51,15 +51,15 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/MarsRobots.kt" />
         <option value="$PROJECT_DIR$/src/Game.kt" />
+        <option value="$PROJECT_DIR$/src/MarsRobots.kt" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="276" />
-    <option name="y" value="1" />
-    <option name="width" value="1618" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="167" />
+    <option name="y" value="27" />
+    <option name="width" value="1743" />
     <option name="height" value="1000" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -84,7 +84,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1552464810761" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1552466994011" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
@@ -176,18 +176,26 @@
       <option name="project" value="LOCAL" />
       <updated>1552463818098</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Implemented more of the command handling including&#10;detection of falling off&#10;Added unit tests for those scenarios">
+      <created>1552464867852</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1552464867852</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="276" y="1" width="1618" height="1000" extended-state="0" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Image Layers" />
       <window_info id="Designer" />
       <window_info id="UI Designer" />
       <window_info id="Capture Tool" />
       <window_info id="Favorites" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.12402089" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1027027" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Version Control" />
       <window_info anchor="bottom" id="Terminal" />
@@ -195,7 +203,7 @@
       <window_info anchor="bottom" id="Messages" weight="0.32883435" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32883435" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.27554536" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -217,13 +225,14 @@
     <MESSAGE value="This has the implementation for creating the robot&#10;1) processes and validates input from user&#10;2) checks specification constraints&#10;3) sets the robot state&#10;4) unit tests for possible inputs" />
     <MESSAGE value="Added the concept of 'command'&#10;The commands themselves are not yet implemented&#10;This is not used in this commit" />
     <MESSAGE value="Added first cut at command implementation&#10;Changing direction is done, but the forward&#10;functionality does not handle the falling off the edge scenario" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added first cut at command implementation&#10;Changing direction is done, but the forward&#10;functionality does not handle the falling off the edge scenario" />
+    <MESSAGE value="Implemented more of the command handling including&#10;detection of falling off&#10;Added unit tests for those scenarios" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented more of the command handling including&#10;detection of falling off&#10;Added unit tests for those scenarios" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/Game.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="354">
-          <caret line="388" lean-forward="true" selection-start-line="388" selection-end-line="388" />
+        <state relative-caret-position="209">
+          <caret line="419" column="57" selection-start-line="419" selection-start-column="57" selection-end-line="419" selection-end-column="57" />
           <folding>
             <element signature="e#0#56#0" expanded="true" />
           </folding>
@@ -232,8 +241,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/MarsRobots.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2104">
-          <caret line="442" selection-start-line="442" selection-end-line="442" />
+        <state relative-caret-position="459">
+          <caret line="548" column="42" selection-start-line="548" selection-start-column="42" selection-end-line="548" selection-end-column="42" />
         </state>
       </provider>
     </entry>
