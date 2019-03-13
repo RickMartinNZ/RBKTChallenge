@@ -15,6 +15,7 @@ class Game {
         const val ROBOT_ERROR =
             "Format: 'xx yy D' where xx & yy are digits in the range 0-$MAX_DIM & D (direction) is N,E,S or W"
         const val OFF_GRID_ERROR = "Cannot place robot off the grid"
+        const val MAX_LINE_LENGTH = 100
     }
 
     /**
@@ -81,6 +82,24 @@ class Game {
     private val robotRegex = "([0-9]{1,2})\\s([0-9]{1,2})\\s[NESW]+".toRegex()
     // the robot state information - there will only be one playing at a time
     private var robot: Robot by Delegates.notNull()
+    // used to validate the command entered by the user
+    // this is not hard coded since there may be new commands
+    // and we don't want to have keep track of them in more than one place
+    private var commandRegex: Regex by Delegates.notNull()
+    // this is constructed as the commands might change
+    private var commandError: String by Delegates.notNull()
+
+    /**
+     * These are the commands that the robot know how to execute
+     * Add more commands here as required
+     */
+    private val commands: HashMap<Char, (Robot) -> Unit> = hashMapOf(
+        'F' to { state -> System.out.println("FORWARD $state") },
+        'R' to { state -> System.out.println("RIGHT $state") },
+        'L' to { state -> System.out.println("LEFT $state") },
+        'T' to { state -> System.out.println("JUST FOR TEST $state") } // just to test new commands
+        // add new commands here
+    )
 
     /**
      * The game state
@@ -101,6 +120,20 @@ class Game {
      * This sets up anything needed to play the game
      */
     fun initialize() {
+        // set up the command regex and the error message for commands
+        // the regex just makes sure that the user can only use a known command
+        val regexSb = StringBuilder()
+        val errorSb = StringBuilder()
+        regexSb.append("([")
+        errorSb.append("Format: 'CCCCCCCCC...' where C can be one of ")
+        for (cmd in commands.keys) {
+            regexSb.append(cmd)
+            errorSb.append("'").append(cmd).append("' ")
+        }
+        regexSb.append("]{1,$MAX_LINE_LENGTH})")
+        commandRegex = regexSb.toString().toRegex()
+        errorSb.append("and no longer than $MAX_LINE_LENGTH characters")
+        commandError = errorSb.toString()
     }
 
     /**
@@ -224,7 +257,7 @@ class Game {
      * @param input the command string
      */
     private fun orderRobot(input: String): EGameState {
-        // TODO add functionality here
+        // TODO implement this
         // to go next game state
         return EGameState.ECreateRobot
     }
