@@ -115,7 +115,12 @@ class Game {
         'F' to { state ->
             run lambda@{
                 state.pos add state.dir.movement
-                // TODO handle going off edge
+                // did we fall?
+                if (!state.pos.isOnGrid(gridDims)) {
+                    // TODO mark the position
+                    state.lost = true
+                }
+
             }
         },
         'R' to { state -> state.dir = state.dir.right() },
@@ -280,7 +285,22 @@ class Game {
      * @param input the command string
      */
     private fun orderRobot(input: String): EGameState {
-        // TODO implement this
+        lastError = EError.ENone
+        // preliminary format check
+        if (!commandRegex.matches(input)) {
+            lastError = EError.EBadInputFormat
+            println(commandError)
+            // don't change state
+            return gameState
+        }
+        for (command in input) {
+            commands[command]!!(robot)
+            if (robot.lost) {
+                dumpRobotStatus(true)
+                return EGameState.ECreateRobot
+            }
+        }
+        dumpRobotStatus(false)
         // to go next game state
         return EGameState.ECreateRobot
     }
@@ -303,6 +323,15 @@ class Game {
     private infix fun Point.add(other: Point) {
         this.x += other.x
         this.y += other.y
+    }
+
+    /**
+     * This shows the status of the robot after executing the commands
+     *
+     * @param dead indicates that the robot has fallen off the grid
+     */
+    private fun dumpRobotStatus(dead: Boolean) {
+        System.out.println("${robot.pos.x} ${robot.pos.y} ${robot.dir} ${if (dead) "LOST" else ""}")
     }
 
     // ================== Test Stuff
@@ -351,6 +380,10 @@ class Game {
 
     fun getRobotDirection(): EDir {
         return robot.dir
+    }
+
+    fun isRobotLost(): Boolean {
+        return robot.lost
     }
 
 
