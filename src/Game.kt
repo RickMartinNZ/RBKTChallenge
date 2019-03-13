@@ -42,6 +42,24 @@ class Game {
         ESouth('S', Point(0, -1)),
         EWest('W', Point(-1, 0));
 
+        /**
+         * @return the new direction if the robot turns right from this facing
+         */
+        fun right(): EDir {
+            var ord = ordinal + 1
+            if (ord > EDir.values().size - 1) ord = 0
+            return EDir.values()[ord]
+        }
+
+        /**
+         * @return the new direction if the robot turns left from this facing
+         */
+        fun left(): EDir {
+            var ord = ordinal - 1
+            if (ord < 0) ord = EDir.values().size - 1
+            return EDir.values()[ord]
+        }
+
         companion object {
             /**
              * @return the EDir for the given character
@@ -94,9 +112,14 @@ class Game {
      * Add more commands here as required
      */
     private val commands: HashMap<Char, (Robot) -> Unit> = hashMapOf(
-        'F' to { state -> System.out.println("FORWARD $state") },
-        'R' to { state -> System.out.println("RIGHT $state") },
-        'L' to { state -> System.out.println("LEFT $state") },
+        'F' to { state ->
+            run lambda@{
+                state.pos add state.dir.movement
+                // TODO handle going off edge
+            }
+        },
+        'R' to { state -> state.dir = state.dir.right() },
+        'L' to { state -> state.dir = state.dir.left() },
         'T' to { state -> System.out.println("JUST FOR TEST $state") } // just to test new commands
         // add new commands here
     )
@@ -270,6 +293,16 @@ class Game {
      */
     private fun Point.isOnGrid(grid: Point): Boolean {
         return this.x in 0 until grid.x && this.y in 0 until grid.y
+    }
+
+    /**
+     * Extension function for adding vectors (allowing infixing)
+     *
+     * @param other the point to add to this vector
+     */
+    private infix fun Point.add(other: Point) {
+        this.x += other.x
+        this.y += other.y
     }
 
     // ================== Test Stuff
