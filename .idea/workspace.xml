@@ -18,8 +18,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/MarsRobots.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="625">
-              <caret line="53" column="54" selection-start-line="53" selection-start-column="54" selection-end-line="53" selection-end-column="54" />
+            <state relative-caret-position="4250">
+              <caret line="195" selection-start-line="195" selection-end-line="195" />
             </state>
           </provider>
         </entry>
@@ -27,8 +27,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Game.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="400">
-              <caret line="128" selection-start-line="128" selection-end-line="128" />
+            <state relative-caret-position="254">
+              <caret line="212" column="65" selection-start-line="212" selection-start-column="65" selection-end-line="212" selection-end-column="65" />
               <folding>
                 <element signature="e#0#56#0" expanded="true" />
               </folding>
@@ -84,7 +84,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1552461837971" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1552462403355" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
@@ -148,7 +148,14 @@
       <option name="project" value="LOCAL" />
       <updated>1552460928837</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="This has the implementation for creating the game world&#10;1) processes and validates input from user&#10;2) checks specification constraints&#10;3) set the world dims&#10;4) unit tests for possible inputs">
+      <created>1552461936290</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1552461936290</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -186,20 +193,21 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="First commit" />
     <MESSAGE value="This has the basic game architecture in place&#10;1) the notion of game state&#10;2) the ability to input&#10;3) the transitioning between games states&#10;This runs through the basic game cycle with no real game functionality" />
-    <option name="LAST_COMMIT_MESSAGE" value="This has the basic game architecture in place&#10;1) the notion of game state&#10;2) the ability to input&#10;3) the transitioning between games states&#10;This runs through the basic game cycle with no real game functionality" />
+    <MESSAGE value="This has the implementation for creating the game world&#10;1) processes and validates input from user&#10;2) checks specification constraints&#10;3) set the world dims&#10;4) unit tests for possible inputs" />
+    <option name="LAST_COMMIT_MESSAGE" value="This has the implementation for creating the game world&#10;1) processes and validates input from user&#10;2) checks specification constraints&#10;3) set the world dims&#10;4) unit tests for possible inputs" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/MarsRobots.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="625">
-          <caret line="53" column="54" selection-start-line="53" selection-start-column="54" selection-end-line="53" selection-end-column="54" />
+        <state relative-caret-position="4250">
+          <caret line="195" selection-start-line="195" selection-end-line="195" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Game.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="128" selection-start-line="128" selection-end-line="128" />
+        <state relative-caret-position="254">
+          <caret line="212" column="65" selection-start-line="212" selection-start-column="65" selection-end-line="212" selection-end-column="65" />
           <folding>
             <element signature="e#0#56#0" expanded="true" />
           </folding>

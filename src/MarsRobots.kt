@@ -1,3 +1,5 @@
+import java.awt.Point
+
 /**
  * Main entry point to game
  */
@@ -17,6 +19,11 @@ fun runTests(game: Game) {
     var passed = testCreateWorld(game)
     if (!passed) {
         System.out.println("testCreateWorld failed")
+        return
+    }
+    passed = testCreateRobot(game)
+    if (!passed) {
+        System.out.println("testCreateRobot failed")
         return
     }
 
@@ -73,5 +80,116 @@ fun testCreateWorld(game: Game): Boolean {
     game.setTestMode(data)
     game.testStep()
     if (game.lastError != Game.EError.ENone) return false
+    return true
+}
+
+fun testCreateRobot(game: Game): Boolean {
+    System.out.println("Create robot regex failure (junk position)")
+    game.resetTestMode()
+    var data = arrayOf("10 10", "abc", "")
+    game.setTestMode(data)
+    game.testStep() // to set up world
+    game.testStep()
+    if (game.lastError != Game.EError.EBadInputFormat) return false
+    System.out.println("Create robot regex failure (position digits too big)")
+    game.resetTestMode()
+    data = arrayOf("10 10", "111 111", "")
+    game.setTestMode(data)
+    game.testStep() // to set up world
+    game.testStep()
+    if (game.lastError != Game.EError.EBadInputFormat) return false
+    System.out.println("Create robot regex failure (missing direction)")
+    game.resetTestMode()
+    data = arrayOf("10 10", "20 20", "")
+    game.setTestMode(data)
+    game.testStep() // to set up world
+    game.testStep()
+    if (game.lastError != Game.EError.EBadInputFormat) return false
+    System.out.println("Create robot regex failure (unknown direction)")
+    game.resetTestMode()
+    data = arrayOf("10 10", "20 20 X", "")
+    game.setTestMode(data)
+    game.testStep() // to set up world
+    game.testStep()
+    if (game.lastError != Game.EError.EBadInputFormat) return false
+    System.out.println("Create robot position off grid")
+    game.resetTestMode()
+    data = arrayOf("10 10", "20 20 N", "")
+    game.setTestMode(data)
+    game.testStep() // to set up world
+    game.testStep()
+    if (game.lastError != Game.EError.ECreateRobotOffGrid) return false
+    System.out.println("Create robot ok position north")
+    game.resetTestMode()
+    data = arrayOf("10 10", "5 5 N", "")
+    game.setTestMode(data)
+    game.testStep() // to set up world
+    game.testStep()
+    if (game.lastError != Game.EError.ENone) return false
+    if (game.getRobotPosition() != Point(5, 5)) return false
+    if (game.getRobotDirection() != Game.EDir.ENorth) return false
+    System.out.println("Create robot ok position east")
+    game.resetTestMode()
+    data = arrayOf("10 10", "5 5 E", "")
+    game.setTestMode(data)
+    game.testStep() // to set up world
+    game.testStep()
+    if (game.lastError != Game.EError.ENone) return false
+    if (game.getRobotPosition() != Point(5, 5)) return false
+    if (game.getRobotDirection() != Game.EDir.EEast) return false
+    System.out.println("Create robot ok position south")
+    game.resetTestMode()
+    data = arrayOf("10 10", "5 5 S", "")
+    game.setTestMode(data)
+    game.testStep() // to set up world
+    game.testStep()
+    if (game.lastError != Game.EError.ENone) return false
+    if (game.getRobotPosition() != Point(5, 5)) return false
+    if (game.getRobotDirection() != Game.EDir.ESouth) return false
+    System.out.println("Create robot ok position west")
+    game.resetTestMode()
+    data = arrayOf("10 10", "5 5 W", "")
+    game.setTestMode(data)
+    game.testStep() // to set up world
+    game.testStep()
+    if (game.lastError != Game.EError.ENone) return false
+    if (game.getRobotPosition() != Point(5, 5)) return false
+    if (game.getRobotDirection() != Game.EDir.EWest) return false
+    System.out.println("Create robot ok at left edge")
+    game.resetTestMode()
+    data = arrayOf("10 10", "0 5 W", "")
+    game.setTestMode(data)
+    game.testStep() // to set up world
+    game.testStep()
+    if (game.lastError != Game.EError.ENone) return false
+    if (game.getRobotPosition() != Point(0, 5)) return false
+    if (game.getRobotDirection() != Game.EDir.EWest) return false
+    System.out.println("Create robot ok at right edge")
+    game.resetTestMode()
+    data = arrayOf("10 10", "9 5 W", "")
+    game.setTestMode(data)
+    game.testStep() // to set up world
+    game.testStep()
+    if (game.lastError != Game.EError.ENone) return false
+    if (game.getRobotPosition() != Point(9, 5)) return false
+    if (game.getRobotDirection() != Game.EDir.EWest) return false
+    System.out.println("Create robot ok at bottom edge")
+    game.resetTestMode()
+    data = arrayOf("10 10", "5 0 W", "")
+    game.setTestMode(data)
+    game.testStep() // to set up world
+    game.testStep()
+    if (game.lastError != Game.EError.ENone) return false
+    if (game.getRobotPosition() != Point(5, 0)) return false
+    if (game.getRobotDirection() != Game.EDir.EWest) return false
+    System.out.println("Create robot ok at top edge")
+    game.resetTestMode()
+    data = arrayOf("10 10", "5 9 W", "")
+    game.setTestMode(data)
+    game.testStep() // to set up world
+    game.testStep()
+    if (game.lastError != Game.EError.ENone) return false
+    if (game.getRobotPosition() != Point(5, 9)) return false
+    if (game.getRobotDirection() != Game.EDir.EWest) return false
     return true
 }
